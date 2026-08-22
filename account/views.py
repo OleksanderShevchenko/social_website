@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from .forms import LoginForm
@@ -26,3 +27,12 @@ def user_login(request):
     else:
         form = LoginForm()  # for get request create empty form and return template ready to get user's credentials
     return render(request, 'account/login.html', {'form': form})
+
+
+@login_required
+def dashboard(request):
+    return render(
+        request,
+        'account/dashboard.html',
+        {'section': 'dashboard'}
+    )
