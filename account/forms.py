@@ -15,3 +15,16 @@ class UserRegistrationForm(forms.ModelForm):  # create new form for new user reg
     class Meta:
         model = get_user_model()  # get UserModel dynamically and include mentioned fields of the model to the form
         fields = ['username', 'first_name', 'email']
+
+    def clean_password2(self):
+        """
+        Password validation method for field 'pasword2'.
+         The method calls automatically on form validation
+        :return: second password cleaned
+        :raise forms.ValidationError: if password is not correct
+        """
+        cd = self.cleaned_data
+
+        if cd['password'] != cd['password2']:
+            raise forms.ValidationError("Passwords don't match.")
+        return cd['password2']
